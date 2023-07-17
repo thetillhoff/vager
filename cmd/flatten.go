@@ -5,7 +5,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	videomanager "github.com/thetillhoff/video-manager/pkg/video-manager"
+	vager "github.com/thetillhoff/vager/pkg/vager"
 )
 
 // flattenCmd represents the flatten command
@@ -14,7 +14,7 @@ var flattenCmd = &cobra.Command{
 	Short: "Flattens file structures with similar videos so that only highest resolution remains (max 1080p)",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		videomanager.Flatten(args[0], dryRun, verbose)
+		vager.Flatten(args[0], dryRun, verbose)
 	},
 }
 

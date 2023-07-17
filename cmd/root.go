@@ -17,7 +17,7 @@ var verbose bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "video-manager",
+	Use:   "vager",
 	Short: "Helps with managing video files",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -40,7 +40,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.video-manager.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.vager.yaml)")
 
 	rootCmd.PersistentFlags().BoolVar(&dryRun, "dryrun", false, "describe actions, but don't touch anything")
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "print more information")
@@ -60,10 +60,10 @@ func initConfig() {
 		home, err := os.UserHomeDir()
 		cobra.CheckErr(err)
 
-		// Search config in home directory with name ".video-manager" (without extension).
+		// Search config in home directory with name ".vager" (without extension).
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".video-manager")
+		viper.SetConfigName(".vager")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
