@@ -1,6 +1,7 @@
 package vager
 
 import (
+	"path"
 	"regexp"
 	"strings"
 )
@@ -8,8 +9,12 @@ import (
 func cleanFileName(filename string) (string, error) {
 	var (
 		err error
+		ext string
 		reg *regexp.Regexp
 	)
+
+	ext = path.Ext(filename)                     // Retrieve file extension (might be empty)
+	filename = strings.TrimSuffix(filename, ext) // Remove file extension if exists
 
 	for _, regex := range []string{
 		`[^a-zA-Z0-9 \&\#-]+`, // Remove illegal characters in name (by defining allowed ones)
@@ -33,5 +38,8 @@ func cleanFileName(filename string) (string, error) {
 	filename = strings.ToLower(filename) // Make all chars lowercase
 
 	filename = strings.TrimSpace(filename) // Remove leading or trailing whitespace
+
+	filename = filename + strings.ToLower(ext) // Append file extension again
+
 	return filename, nil
 }

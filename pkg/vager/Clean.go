@@ -38,14 +38,26 @@ func Clean(mainFolderPath string, dryRun bool, verbose bool) {
 
 		// Rename file
 		if dryRun {
-			log.Println("Would move '" + mainFolderFile.Name() + "' to '" + cleanedName + "'")
+			if mainFolderFile.Name() != cleanedName { // If the filename changes
+				log.Println("Would rename '" + mainFolderFile.Name() + "' to '" + cleanedName + "'")
+			} else { // If the filename stays the same
+				if verbose {
+					log.Println("Skipping", cleanedName, "as the filename is already clean")
+				}
+			}
 		} else {
-			err := os.Rename(mainFolderFile.Name(), cleanedName)
-			if err != nil {
-				log.Fatal(err)
+			if mainFolderFile.Name() != cleanedName { // If the filename changes
+				err := os.Rename(mainFolderFile.Name(), cleanedName) // Rename
+				if err != nil {
+					log.Fatal(err)
+				}
+				log.Println("Renamed '" + mainFolderFile.Name() + "' to '" + cleanedName + "'")
+			} else { // If the filename stays the same
+				if verbose {
+					log.Println("Skipping", cleanedName, "as the filename is already clean")
+				}
 			}
 		}
-		log.Println("Cleaned '" + mainFolderFile.Name() + "'")
 		log.Println("---")
 	}
 }

@@ -147,6 +147,9 @@ mainFolderLoop:
 				if err != nil {
 					log.Fatal(err)
 				}
+				if verbose {
+					log.Println("Moving '" + oldLocation + "' to '" + newLocation + "'")
+				}
 			}
 
 			// TODO Add more cool features :) like
@@ -159,6 +162,9 @@ mainFolderLoop:
 				err := os.RemoveAll(fullPath)
 				if err != nil {
 					log.Fatal(err)
+				}
+				if verbose {
+					log.Println("Deleting folder '" + fullPath + "'")
 				}
 			}
 
