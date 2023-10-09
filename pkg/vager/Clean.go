@@ -31,33 +31,32 @@ func Clean(mainFolderPath string, dryRun bool, verbose bool) {
 
 	for _, mainFolderFile := range mainFileList { // For each file in mainFolder
 
+		if verbose {
+			log.Println("Checking name '" + mainFolderFile.Name() + "'")
+		}
+
 		cleanedName, err = cleanFileName(mainFolderFile.Name())
 		if err != nil {
 			log.Fatalln(err)
 		}
 
 		// Rename file
-		if dryRun {
-			if mainFolderFile.Name() != cleanedName { // If the filename changes
+		if mainFolderFile.Name() != cleanedName { // If the filename changes
+			if dryRun {
 				log.Println("Would rename '" + mainFolderFile.Name() + "' to '" + cleanedName + "'")
-			} else { // If the filename stays the same
-				if verbose {
-					log.Println("Skipping", cleanedName, "as the filename is already clean")
-				}
-			}
-		} else {
-			if mainFolderFile.Name() != cleanedName { // If the filename changes
+			} else {
+				log.Println("Renaming '" + mainFolderFile.Name() + "' to '" + cleanedName + "'")
 				err := os.Rename(mainFolderFile.Name(), cleanedName) // Rename
 				if err != nil {
 					log.Fatal(err)
 				}
-				log.Println("Renamed '" + mainFolderFile.Name() + "' to '" + cleanedName + "'")
-			} else { // If the filename stays the same
-				if verbose {
-					log.Println("Skipping", cleanedName, "as the filename is already clean")
-				}
+			}
+		} else { // If the filename stays the same
+			if verbose {
+				log.Println("Skipping", cleanedName, "as the filename is already clean")
 			}
 		}
+
 		log.Println("---")
 	}
 }
