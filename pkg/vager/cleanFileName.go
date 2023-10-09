@@ -13,8 +13,13 @@ func cleanFileName(filename string) (string, error) {
 		reg *regexp.Regexp
 	)
 
-	ext = path.Ext(filename)                     // Retrieve file extension (might be empty)
-	filename = strings.TrimSuffix(filename, ext) // Remove file extension if exists
+	ext = path.Ext(filename) // Retrieve file extension (might be empty)
+
+	if ext != "" {
+		for strings.HasSuffix(filename, ext) { // If file extension exists at least once
+			filename = strings.TrimSuffix(filename, ext) // Remove file extension (it's added later again)
+		}
+	}
 
 	for _, regex := range []string{
 		`[^a-zA-Z0-9 \&\#-]+`, // Remove illegal characters in name (by defining allowed ones)
