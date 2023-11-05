@@ -7,7 +7,6 @@ import (
 	"os"
 	"path"
 	"strings"
-	"syscall"
 )
 
 func Flatten(mainFolderPath string, dryRun bool, verbose bool) {
@@ -94,12 +93,8 @@ mainFolderLoop:
 					}
 					err := os.Rename(oldLocation, newLocation)
 					if err != nil {
-						if errors.Is(err, syscall.EADDRINUSE) {
-							log.Println("Skipping '" + oldLocation + "' because the file is in use")
-							continue // Continue with next folder/file
-						} else {
-							log.Fatalln(err)
-						}
+						log.Println("Skipping '" + oldLocation + "' because " + errors.Unwrap(err).Error())
+						continue // Continue with next folder/file
 					}
 				}
 
@@ -182,10 +177,12 @@ mainFolderLoop:
 					}
 					err := os.Rename(oldLocation, newLocation)
 					if err != nil {
+						log.Println("Skipping '" + oldLocation + "' because " + errors.Unwrap(err).Error())
+						continue // Continue with next folder/file
+					} else {
 						log.Fatalln(err)
 					}
 				}
-
 			}
 
 			// TODO Add more cool features :) like
