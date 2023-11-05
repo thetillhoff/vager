@@ -1,11 +1,13 @@
 package vager
 
 import (
+	"errors"
 	"io/fs"
 	"log"
 	"os"
 	"path"
 	"strings"
+	"syscall"
 )
 
 func Flatten(mainFolderPath string, dryRun bool, verbose bool) {
@@ -92,7 +94,12 @@ mainFolderLoop:
 					}
 					err := os.Rename(oldLocation, newLocation)
 					if err != nil {
-						log.Fatal(err)
+						if errors.Is(err, syscall.EADDRINUSE) {
+							log.Println("Skipping '" + oldLocation + "' because the file is in use")
+							continue // Continue with next folder/file
+						} else {
+							log.Fatalln(err)
+						}
 					}
 				}
 
@@ -175,7 +182,7 @@ mainFolderLoop:
 					}
 					err := os.Rename(oldLocation, newLocation)
 					if err != nil {
-						log.Fatal(err)
+						log.Fatalln(err)
 					}
 				}
 

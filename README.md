@@ -39,3 +39,4 @@ rm vager_linux_amd64 vager_linux_amd64.sha256
   - [x] lowercase
   - [x] search for keywords like names, genre, publisher, sort them, and rename file
   - [x] add names, genre, publisher to metadata of file
+- [x] Continue with next file/folder if a file is currently in use instead of failing and stopping
