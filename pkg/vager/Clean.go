@@ -8,6 +8,11 @@ import (
 	"os"
 )
 
+// Clean iterates over all elements in a folder and clears each name
+//
+//	clearing means removing invalid characters
+//	making all characters lowercase
+//	(removing duplicate file-extensions (`.mp4.mp4.mp4`))
 func Clean(mainFolderPath string, dryRun bool, verbose bool) {
 	var (
 		err error
@@ -57,6 +62,8 @@ func Clean(mainFolderPath string, dryRun bool, verbose bool) {
 			}
 		}
 
-		log.Println("---")
+		if verbose {
+			log.Println("---")
+		}
 	}
 }

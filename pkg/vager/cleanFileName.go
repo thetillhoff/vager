@@ -22,12 +22,13 @@ func cleanFileName(filename string) (string, error) {
 	}
 
 	for _, regex := range []string{
-		`[^a-zA-Z0-9 \&\#-]+`, // Remove illegal characters in name (by defining allowed ones)
-		`[0-9]{4,}`,           // Remove all numbers that are more than 4 characters long
-		`\s+`,                 // Remove duplicate spaces
-		` ,`,                  // Remove weirdly formatted commas
-		`\s+`,                 // Remove duplicate spaces again
-		`-$`,                  // Remove trailing hyphen
+		`[^a-zA-Z0-9 \&\#-,_+]+`, // Remove illegal characters in name (by defining allowed ones)
+		`[0-9]{4,}`,              // Remove all numbers that are more than 4 characters long // TODO This causes an error if the filename is _only_ numbers
+		`\s+`,                    // Remove duplicate spaces
+		` ,`,                     // Remove weirdly formatted commas
+		`\s+`,                    // Remove duplicate spaces again
+		`-$`,                     // Remove trailing hyphen
+		`^-`,                     // Remove beginning hyphen
 	} {
 		reg, err = regexp.Compile(regex)
 		if err != nil {
